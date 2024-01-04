@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SiliciumDiary</string>
+    <string name="time">Time</string>
+    <string name="name_task">Name task</string>
+    <string name="description">Description</string>
+    <string name="save_task">SAVE TASK</string>
+    <string name="delete_task">DELETE TASK</string>
+
+    <string name="time_item">Time:</string>
+    <string name="name_item">Task name:</string>
+    <string name="description_item">Description:</string>
+</resources>

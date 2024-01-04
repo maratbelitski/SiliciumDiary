@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SiliciumDiary" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+         <item name="colorPrimary">@color/black</item>
+    </style>
+
+    <style name="Theme.SiliciumDiary" parent="Base.Theme.SiliciumDiary" />
+
+    <style name="CalenderViewCustom" parent="Base.Theme.SiliciumDiary">
+        <item name="colorAccent">#FFD600</item>
+        <item name="colorPrimary">@color/white</item>
+    </style>
+
+    <style name="CalenderDayText" parent="Base.Theme.SiliciumDiary">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CalenderWeekDayText" parent="Base.Theme.SiliciumDiary">
+        <item name="android:textColor">#FFD600</item>
+    </style>
+
+    <style name="CalenderMonthsText" parent="Base.Theme.SiliciumDiary">
+        <item name="colorAccent">#FFD600</item>
+        <item name="android:textColorPrimary">#FFD600</item>
+    </style>
+</resources>
