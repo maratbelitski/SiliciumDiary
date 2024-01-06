@@ -16,7 +16,8 @@ import com.siliciumdiary.R
  */
 class TaskAdapter() : RecyclerView.Adapter<TaskAdapter.TaskHolder>() {
 
-    var listTasks = mutableListOf<Tasks>()
+  var listTasks = mutableListOf<Tasks>()
+
         set(value) {
             field = value
             notifyDataSetChanged()

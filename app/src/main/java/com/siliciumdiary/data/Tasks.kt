@@ -8,7 +8,7 @@ import androidx.room.Entity
  * @project SiliciumDiary
  */
 
-@Entity("tasks", primaryKeys = ["timeTask", "dateTask"])
+@Entity("tasks", primaryKeys = ["dateTask","numberTask"])
 data class Tasks(
 
     val dateTask: String = "",

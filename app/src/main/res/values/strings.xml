@@ -9,4 +9,6 @@
     <string name="time_item">Time:</string>
     <string name="name_item">Task name:</string>
     <string name="description_item">Description:</string>
+
+    <string name="error_checkText">Поля не могут быть пустыми!</string>
 </resources>

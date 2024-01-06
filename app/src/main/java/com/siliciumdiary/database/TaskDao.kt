@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.siliciumdiary.data.Tasks
-import io.reactivex.rxjava3.core.Completable
 
 /**
  * @author Belitski Marat
@@ -19,9 +18,10 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE dateTask = :dateTask")
     fun getAllTasks(dateTask:String):LiveData<List<Tasks>>
 
+
     @Query("DELETE FROM tasks WHERE dateTask = :dateTask AND timeTask = :timeTask")
-    fun removeTask(dateTask: String, timeTask:String):Completable
+   fun removeTask(dateTask: String, timeTask:String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTask(tasks: Tasks):Completable
+   fun insertTask(tasks: Tasks)
 }

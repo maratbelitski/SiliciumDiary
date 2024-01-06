@@ -5,13 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.siliciumdiary.R
 import com.siliciumdiary.data.Tasks
 import com.siliciumdiary.databinding.ActivityDetailTaskBinding
 import com.siliciumdiary.viewmodels.DetailTaskViewModel
-
+import kotlinx.coroutines.runBlocking
 
 class DetailTaskActivity : AppCompatActivity() {
 
@@ -55,14 +57,28 @@ class DetailTaskActivity : AppCompatActivity() {
                 val name = etNameTask.text.toString().trim()
                 val description = etDescription.text.toString().trim()
 
-                val checkTime = myViewModel.checkTime(templateTime.toString(), time)
-                val checkText = myViewModel.checkInputText(this@DetailTaskActivity, name, description)
+                runBlocking {
+                    val checkTime = myViewModel.checkTime(templateTime.toString(), time)
+                    val checkText = myViewModel.checkInputText(name, description)
 
-                if (checkTime && checkText) {
-                    myViewModel.insertTaskToDB(Tasks(date, number, time, name, description))
-                    myViewModel.closeDisplay.observe(this@DetailTaskActivity, Observer {
-                       if (it) finish()
-                    })
+                    if (checkTime && checkText) {
+                        myViewModel.insertTaskToDB(Tasks(date, number, time, name, description))
+                        myViewModel.closeDisplay.observe(this@DetailTaskActivity, Observer {
+                            if (it) finish()
+                        })
+                    } else if (!checkTime) {
+                        Toast.makeText(
+                            this@DetailTaskActivity,
+                            "Введите время в формате ${templateTime.substring(0, 2)}.mm",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            this@DetailTaskActivity,
+                            getString(R.string.error_checkText),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
 
@@ -71,6 +87,7 @@ class DetailTaskActivity : AppCompatActivity() {
                 val time = etTime.text.toString().trim()
 
                 myViewModel.deleteTaskFromDB(date, time)
+
                 myViewModel.closeDisplay.observe(this@DetailTaskActivity, Observer {
                     if (it) finish()
                 })
