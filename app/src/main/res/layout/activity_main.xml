@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     android:padding="16dp"
-    tools:context=".activities.MainActivity">
+    tools:context=".presentation.activities.MainActivity">
 
 
     <CalendarView

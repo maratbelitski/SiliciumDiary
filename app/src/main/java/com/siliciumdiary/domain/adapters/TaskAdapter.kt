@@ -1,4 +1,4 @@
-package com.siliciumdiary.data
+package com.siliciumdiary.domain.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.siliciumdiary.R
+import com.siliciumdiary.domain.Tasks
 
 /**
  * @author Belitski Marat
@@ -20,7 +21,7 @@ class TaskAdapter() : RecyclerView.Adapter<TaskAdapter.TaskHolder>() {
 
         set(value) {
             field = value
-            notifyDataSetChanged()
+           notifyDataSetChanged()
         }
     var myTaskClickListener: MyTaskClickListener? = null
 

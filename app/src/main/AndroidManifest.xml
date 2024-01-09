@@ -13,10 +13,10 @@
         android:theme="@style/Theme.SiliciumDiary"
         tools:targetApi="31">
         <activity
-            android:name=".activities.DetailTaskActivity"
+            android:name=".presentation.activities.DetailTaskActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".presentation.activities.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

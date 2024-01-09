@@ -1,4 +1,4 @@
-package com.siliciumdiary.data
+package com.siliciumdiary.domain
 
 import androidx.room.Entity
 

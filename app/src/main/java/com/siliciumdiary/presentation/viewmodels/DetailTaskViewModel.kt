@@ -1,10 +1,10 @@
-package com.siliciumdiary.viewmodels
+package com.siliciumdiary.presentation.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.siliciumdiary.data.Tasks
-import com.siliciumdiary.database.TaskDataBase
+import com.siliciumdiary.data.database.TaskDataBase
+import com.siliciumdiary.domain.Tasks
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

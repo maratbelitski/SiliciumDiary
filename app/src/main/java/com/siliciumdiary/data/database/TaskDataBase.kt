@@ -1,10 +1,10 @@
-package com.siliciumdiary.database
+package com.siliciumdiary.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.siliciumdiary.data.Tasks
+import com.siliciumdiary.domain.Tasks
 
 /**
  * @author Belitski Marat

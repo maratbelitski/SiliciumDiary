@@ -1,4 +1,4 @@
-package com.siliciumdiary.activities
+package com.siliciumdiary.presentation.activities
 
 import android.content.Context
 import android.content.Intent
@@ -10,9 +10,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.siliciumdiary.R
-import com.siliciumdiary.data.Tasks
+import com.siliciumdiary.domain.Tasks
 import com.siliciumdiary.databinding.ActivityDetailTaskBinding
-import com.siliciumdiary.viewmodels.DetailTaskViewModel
+import com.siliciumdiary.presentation.viewmodels.DetailTaskViewModel
 import kotlinx.coroutines.runBlocking
 
 class DetailTaskActivity : AppCompatActivity() {
@@ -32,14 +32,16 @@ class DetailTaskActivity : AppCompatActivity() {
         binding = ActivityDetailTaskBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         with(binding) {
 
             tvDateTask.text = intent.getStringExtra(DATE)
+
             etNameTask.text =
                 Editable.Factory.getInstance().newEditable(intent.getStringExtra(NAME))
+
             etDescription.text =
                 Editable.Factory.getInstance().newEditable(intent.getStringExtra(DESCRIPTION))
+
             val templateTime =
                 Editable.Factory.getInstance().newEditable(intent.getStringExtra(TIME))
             etTime.text = templateTime
