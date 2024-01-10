@@ -27,8 +27,9 @@ class MainActivity : AppCompatActivity() {
             myViewModel.currentDateLD.observe(this@MainActivity) { date ->
                 binding.currentDate.text = date
 
-                Log.i("MyLog", date)
+
                 myViewModel.getAllTasksLD(date).observe(this@MainActivity) {
+                    Log.i("MyLog", date)
                     if (it.isNotEmpty()) {
                         myViewModel.getNewListTask(it)
 
@@ -42,8 +43,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
-
 
             calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
                 val dateClick = "$dayOfMonth.${month + 1}.$year"

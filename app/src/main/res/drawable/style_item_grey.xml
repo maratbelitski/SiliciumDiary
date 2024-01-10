@@ -3,5 +3,8 @@
     <stroke android:color="@color/yellow" android:width="3dp"/>
     <solid android:color="@color/grey"/>
     <corners android:radius="8dp"/>
-
+    <gradient android:type="linear"
+        android:endColor="@color/grey"
+        android:startColor="@color/black"
+        android:angle="90.0" />
 </shape>
