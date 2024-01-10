@@ -5,12 +5,16 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.siliciumdiary.data.database.TaskDataBase
+import androidx.lifecycle.viewModelScope
+import com.siliciumdiary.data.DiaryRepositoryImpl
 import com.siliciumdiary.domain.Tasks
-import kotlinx.coroutines.CoroutineScope
+import com.siliciumdiary.domain.usecases.DeleteTaskFromDB
+import com.siliciumdiary.domain.usecases.GetAllTasks
+import com.siliciumdiary.domain.usecases.GetCurrentDate
+import com.siliciumdiary.domain.usecases.GetDefaultListTasks
+import com.siliciumdiary.domain.usecases.GetNewListTask
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.Calendar
 
 /**
  * @author Belitski Marat
@@ -18,76 +22,45 @@ import java.util.Calendar
  * @project SiliciumDiary
  */
 class MainViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository = DiaryRepositoryImpl(application)
+    private val currentDate = GetCurrentDate(repository)
+    private val defaultListTask = GetDefaultListTasks(repository)
+    private val newListTask = GetNewListTask(repository)
+    private val deleteTask = DeleteTaskFromDB(repository)
+    private val allTask = GetAllTasks(repository)
+
     var currentDateLD: MutableLiveData<String> = MutableLiveData()
     var defaultTasksLD: MutableLiveData<MutableList<Tasks>> = MutableLiveData()
-    private val closeDisplay: MutableLiveData<Boolean> = MutableLiveData(false)
-    private val dao = TaskDataBase.getDB(application).getDao()
+    var upgradeListTaskLD: MutableLiveData<MutableList<Tasks>> = MutableLiveData()
 
     init {
-        getCurrentDate()
-        getDefaultListTasks()
+        getCurrentDateLD()
+        getDefaultListTasksLD()
+    }
+    private fun getCurrentDateLD() {                                                 //В UseCase
+        viewModelScope.launch (Dispatchers.IO){
+            currentDateLD.postValue(currentDate.getCurrentDateUC())
+        }
+    }
+    fun getAllTasksLD(dateTask: String): LiveData<MutableList<Tasks>> {             //В UseCase
+        return allTask.getAllTasksUC(dateTask)
     }
 
-    fun getAllTasksLD(dateTask: String): LiveData<MutableList<Tasks>> {
-        Log.i("MyLog","2 Получаем таски из БД ${dao.getAllTasks(dateTask)}")
-        return dao.getAllTasks(dateTask)
-    }
-
-    fun deleteTaskFromDB(taskDate: String, timeTask: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            dao.removeTask(taskDate, timeTask)
-            closeDisplay.postValue(true)
+    fun deleteTaskFromDB(taskDate: String, timeTask: String) {                      //В UseCase
+        viewModelScope.launch (Dispatchers.IO){
+           deleteTask.deleteTaskFromDbUC(taskDate,timeTask)
         }
     }
 
-    private fun getCurrentDate() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val calendar = Calendar.getInstance()
-            val month = calendar[Calendar.MONTH]
-            currentDateLD.postValue("${calendar[Calendar.DAY_OF_MONTH]}.${month + 1}.${calendar[Calendar.YEAR]}")
-            Log.i("MyLog", "1 Получаем дату ${calendar[Calendar.DAY_OF_MONTH]}.${month + 1}.${calendar[Calendar.YEAR]}")
+    fun getNewListTask(listFromDB: List<Tasks>) {                                    //В UseCase
+        viewModelScope.launch(Dispatchers.IO) {
+            upgradeListTaskLD.postValue(newListTask.getNewListTask(listFromDB))
         }
     }
 
-
-    fun getNewListTask(listFromDB: List<Tasks>){
-        val defaultTask = mutableListOf<Tasks>()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            for ((index, task) in (0..23).withIndex()) {
-                var time: String
-                if (task in 0..<10) {
-                    time = "0$task.00"
-                } else {
-                    time = "$task.00"
-                }
-                defaultTask.add(Tasks(numberTask = index, timeTask = time))
-
-            }
-            for (newTask in listFromDB) {
-                val number = newTask.numberTask
-                defaultTask[number] = newTask
-            }
-            Log.i("MyLog","3 Возвращаем в LD обновленный список $defaultTask")
-            defaultTasksLD.postValue(defaultTask)
-        }
-    }
-
-    private fun getDefaultListTasks(){
-        val defaultTask = mutableListOf<Tasks>()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            for ((index, task) in (0..23).withIndex()) {
-                var time: String
-                if (task in 0..<10) {
-                    time = "0$task.00"
-                } else {
-                    time = "$task.00"
-                }
-                defaultTask.add(Tasks(numberTask = index, timeTask = time))
-            }
-            Log.i("MyLog","0 Формируем ДЕФОЛТНЫЙ лист и присваиваем в LD ${defaultTask}")
-            defaultTasksLD.postValue(defaultTask)
+    private fun getDefaultListTasksLD() {                                              //В UseCase
+        viewModelScope.launch(Dispatchers.IO){
+            defaultTasksLD.postValue(defaultListTask.getDefaultListTasksUC())
         }
     }
 }

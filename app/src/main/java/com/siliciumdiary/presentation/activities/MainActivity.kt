@@ -1,12 +1,12 @@
 package com.siliciumdiary.presentation.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.siliciumdiary.databinding.ActivityMainBinding
 import com.siliciumdiary.domain.Tasks
 import com.siliciumdiary.domain.adapters.TaskAdapter
-import com.siliciumdiary.presentation.activities.DetailTaskActivity
 import com.siliciumdiary.presentation.viewmodels.MainViewModel
 
 
@@ -24,9 +24,25 @@ class MainActivity : AppCompatActivity() {
 
             recycler.adapter = taskAdapter
 
-            myViewModel.defaultTasksLD.observe(this@MainActivity) {
-                taskAdapter.listTasks = it
+            myViewModel.currentDateLD.observe(this@MainActivity) { date ->
+                binding.currentDate.text = date
+
+                Log.i("MyLog", date)
+                myViewModel.getAllTasksLD(date).observe(this@MainActivity) {
+                    if (it.isNotEmpty()) {
+                        myViewModel.getNewListTask(it)
+
+                        myViewModel.upgradeListTaskLD.observe(this@MainActivity) { upgrade ->
+                            taskAdapter.listTasks = upgrade
+                        }
+                    } else {
+                        myViewModel.defaultTasksLD.observe(this@MainActivity) { default ->
+                            taskAdapter.listTasks = default
+                        }
+                    }
+                }
             }
+
 
 
             calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
@@ -57,11 +73,5 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        myViewModel.currentDateLD.observe(this@MainActivity) { date ->
-            binding.currentDate.text = date
-            myViewModel.getAllTasksLD(date).observe(this@MainActivity) {
-                myViewModel.getNewListTask(it)
-            }
-        }
     }
 }
