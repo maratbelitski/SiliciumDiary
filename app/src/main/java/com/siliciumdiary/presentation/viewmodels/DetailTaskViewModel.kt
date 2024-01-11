@@ -1,14 +1,21 @@
 package com.siliciumdiary.presentation.viewmodels
 
 import android.app.Application
+import android.text.Editable
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.siliciumdiary.data.database.TaskDataBase
+import androidx.lifecycle.viewModelScope
+import com.siliciumdiary.R
+import com.siliciumdiary.data.DiaryRepositoryImpl
 import com.siliciumdiary.domain.Tasks
-import kotlinx.coroutines.CoroutineScope
+import com.siliciumdiary.domain.usecases.AddTaskInDB
+import com.siliciumdiary.domain.usecases.CheckText
+import com.siliciumdiary.domain.usecases.CheckTime
+import com.siliciumdiary.domain.usecases.DeleteTaskFromDB
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * @author Belitski Marat
@@ -16,55 +23,48 @@ import kotlinx.coroutines.withContext
  * @project SiliciumDiary
  */
 class DetailTaskViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository = DiaryRepositoryImpl(application)
+
+    private val deleteTask = DeleteTaskFromDB(repository)
+    private val insertTask = AddTaskInDB(repository)
+    private val checkTime = CheckTime(repository)
+    private val checkText = CheckText(repository)
+
     val closeDisplay: MutableLiveData<Boolean> = MutableLiveData()
-    private val dao = TaskDataBase.getDB(application).getDao()
 
-    fun insertTaskToDB(tasks: Tasks) {
-        CoroutineScope(Dispatchers.IO).launch {
-            dao.insertTask(tasks)
+
+    fun insertTaskToDBLD(task: Tasks) {                                               //В UseCase
+        viewModelScope.launch(Dispatchers.IO) {
+            insertTask.addTaskUC(task)
             closeDisplay.postValue(true)
         }
     }
 
-    fun deleteTaskFromDB(taskDate: String, timeTask: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            dao.removeTask(taskDate, timeTask)
+    fun deleteTaskFromDB(taskDate: String, timeTask: String) {                       //В UseCase
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteTask.deleteTaskFromDbUC(taskDate,timeTask)
             closeDisplay.postValue(true)
         }
     }
 
-    suspend fun checkTime(timeTemplate: String, timeComplete: String): Boolean {
-        var result = false
-         result = withContext(Dispatchers.IO){
-            val hour = timeTemplate.substring(0, 2)
-            val listTime = mutableListOf<String>()
-
-            for (minutes in 0..59) {
-                if (minutes in 0..<10) {
-                    listTime.add("$hour.0$minutes")
-                } else {
-                    listTime.add("$hour.$minutes")
-                }
-            }
-            for (time in listTime) {
-                if (timeComplete == time) {
-                    result = true
-                    break
-                }
-            }
-             return@withContext result
-        }
-        return result
+    fun checkTimeLD(timeTemplate: String, timeComplete: String): Boolean {                  //В UseCase
+     return  checkTime.checkTimeUC(timeTemplate,timeComplete)
     }
 
-    suspend fun checkInputText(name: String, description: String): Boolean {
-        var result = false
-       result = withContext(Dispatchers.IO) {
-            if (name.isNotEmpty() && description.isNotEmpty()) {
-                result = true
-            }
-            return@withContext result
-        }
-       return result
+   fun checkTextLD(name: String, description: String): Boolean {                        //В UseCase
+     return checkText.checkTextUC(name, description)
+    }
+
+    fun toastTime(templateTime: Editable) {
+        Toast.makeText(
+            getApplication(),
+            "Введите время в формате ${templateTime.substring(0, 2)}.mm", Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    fun toastText() {
+        Toast.makeText(
+            getApplication(),getString(getApplication(),R.string.error_checkText), Toast.LENGTH_SHORT)
+            .show()
     }
 }

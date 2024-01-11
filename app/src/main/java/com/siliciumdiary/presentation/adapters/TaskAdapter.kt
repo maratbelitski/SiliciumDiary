@@ -1,4 +1,4 @@
-package com.siliciumdiary.domain.adapters
+package com.siliciumdiary.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,7 +1,6 @@
 package com.siliciumdiary.presentation.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +22,7 @@ import kotlinx.coroutines.launch
  */
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = DiaryRepositoryImpl(application)
+
     private val currentDate = GetCurrentDate(repository)
     private val defaultListTask = GetDefaultListTasks(repository)
     private val newListTask = GetNewListTask(repository)

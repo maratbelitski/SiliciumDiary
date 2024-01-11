@@ -9,6 +9,7 @@ import com.siliciumdiary.domain.usecases.DiaryRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 
 /**
@@ -45,7 +46,7 @@ class DiaryRepositoryImpl(application: Application) : DiaryRepository {
     }
 
     override fun getAllTasksRep(dateTask: String): LiveData<MutableList<Tasks>> {
-       return dao.getAllTasks(dateTask)
+        return dao.getAllTasks(dateTask)
     }
 
     override fun getNewListTask(listFromDB: List<Tasks>): MutableList<Tasks> {
@@ -65,5 +66,41 @@ class DiaryRepositoryImpl(application: Application) : DiaryRepository {
             defaultTask[number] = newTask
         }
         return defaultTask
+    }
+
+    override fun addTask(task: Tasks) {
+        dao.insertTask(task)
+    }
+
+    override fun checkTimeUC(timeTemplate: String, timeComplete: String): Boolean {
+        var result = false
+
+        val hour = timeTemplate.substring(0, 2)
+        val listTime = mutableListOf<String>()
+
+        for (minutes in 0..59) {
+            if (minutes in 0..<10) {
+                listTime.add("$hour.0$minutes")
+            } else {
+                listTime.add("$hour.$minutes")
+            }
+        }
+
+        for (time in listTime) {
+            if (timeComplete == time) {
+                result = true
+                break
+            }
+        }
+        return result
+    }
+
+    override fun checkTextUC(name: String, description: String): Boolean {
+        var result = false
+
+        if (name.isNotEmpty() && description.isNotEmpty()) {
+            result = true
+        }
+        return result
     }
 }
