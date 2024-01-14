@@ -9,7 +9,7 @@ import com.siliciumdiary.domain.Tasks
  * @project SiliciumDiary
  */
 class GetAllTasks(private val diaryRepository: DiaryRepository) {
-    fun getAllTasksUC(dateTask: String): LiveData<MutableList<Tasks>> {
-       return diaryRepository.getAllTasksRep(dateTask)
+  fun getAllTasksUC(): LiveData<MutableList<Tasks>> {
+       return diaryRepository.getAllTasksRep()
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -24,7 +25,7 @@ class DetailTaskActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailTaskBinding
     private val myViewModel: DetailTaskViewModel by viewModels()
-
+    private lateinit var templateTime:Editable
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityDetailTaskBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -32,16 +33,6 @@ class DetailTaskActivity : AppCompatActivity() {
         with(binding) {
 
             initViews()
-
-            val templateTime =
-                Editable.Factory.getInstance().newEditable(intent.getStringExtra(TIME))
-            etTime.text = templateTime
-
-            btnDelete.visibility = if (intent.getStringExtra(NAME)!!.isNotEmpty()) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
 
             btnSave.setOnClickListener {
                 val number = intent.getIntExtra(NUMBER, 0)
@@ -56,10 +47,9 @@ class DetailTaskActivity : AppCompatActivity() {
                 if (checkTime && checkText) {
 
                     myViewModel.insertTaskToDBLD(Tasks(date, number, time, name, description))
-                    myViewModel.closeDisplay.observe(this@DetailTaskActivity, Observer {
+                    myViewModel.closeDisplayLD.observe(this@DetailTaskActivity, Observer {
                         if (it) finish()
                     })
-
                 } else if (!checkTime) {
                     myViewModel.toastTime(templateTime)
                 } else {
@@ -73,8 +63,8 @@ class DetailTaskActivity : AppCompatActivity() {
 
                 myViewModel.deleteTaskFromDB(date, time)
 
-                myViewModel.closeDisplay.observe(this@DetailTaskActivity, Observer {
-                    if (it) finish()
+                myViewModel.closeDisplayLD.observe(this@DetailTaskActivity, Observer {
+                      if (it) finish()
                 })
             }
         }
@@ -101,6 +91,16 @@ class DetailTaskActivity : AppCompatActivity() {
 
             etDescription.text =
                 Editable.Factory.getInstance().newEditable(intent.getStringExtra(DESCRIPTION))
+
+            templateTime =
+                Editable.Factory.getInstance().newEditable(intent.getStringExtra(TIME))
+            etTime.text = templateTime
+
+            btnDelete.visibility = if (intent.getStringExtra(NAME)!!.isNotEmpty()) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
         }
     }
 }

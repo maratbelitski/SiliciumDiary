@@ -8,7 +8,7 @@ import com.siliciumdiary.domain.Tasks
  * @project SiliciumDiary
  */
 class GetNewListTask(private val diaryRepository: DiaryRepository) {
-    fun getNewListTask(listFromDB: List<Tasks>):MutableList<Tasks>{
-        return diaryRepository.getNewListTask(listFromDB)
+    fun getNewListTask(listFromDB: List<Tasks>, date:String):MutableList<Tasks>{
+        return diaryRepository.getNewListTask(listFromDB,date)
     }
 }

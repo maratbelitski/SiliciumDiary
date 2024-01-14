@@ -2,6 +2,7 @@ package com.siliciumdiary.domain.usecases
 
 import androidx.lifecycle.LiveData
 import com.siliciumdiary.domain.Tasks
+import io.reactivex.rxjava3.core.Completable
 
 /**
  * @author Belitski Marat
@@ -12,9 +13,9 @@ interface DiaryRepository {
     fun getCurrentDateRep(): String
     fun getDefaultListTasksRep(): MutableList<Tasks>
     fun deleteTaskFromDbRep(taskDate: String, timeTask: String)
-    fun getAllTasksRep(dateTask: String): LiveData<MutableList<Tasks>>
-    fun getNewListTask(listFromDB: List<Tasks>):MutableList<Tasks>
-    fun addTask(task: Tasks)
+    fun getAllTasksRep(): LiveData<MutableList<Tasks>>
+    fun getNewListTask(listFromDB: List<Tasks>, date:String):MutableList<Tasks>
+     fun addTask(task: Tasks)
     fun checkTimeUC(timeTemplate: String, timeComplete: String):Boolean
     fun checkTextUC(name: String, description: String):Boolean
 }

@@ -1,6 +1,7 @@
 package com.siliciumdiary.domain.usecases
 
 import com.siliciumdiary.domain.Tasks
+import io.reactivex.rxjava3.core.Completable
 
 /**
  * @author Belitski Marat
@@ -9,6 +10,6 @@ import com.siliciumdiary.domain.Tasks
  */
 class AddTaskInDB(private val repository: DiaryRepository) {
     fun addTaskUC(task: Tasks){
-        repository.addTask(task)
+       return repository.addTask(task)
     }
 }
