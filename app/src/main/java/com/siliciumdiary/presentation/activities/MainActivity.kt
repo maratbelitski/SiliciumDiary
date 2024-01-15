@@ -1,7 +1,7 @@
 package com.siliciumdiary.presentation.activities
 
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.siliciumdiary.databinding.ActivityMainBinding
@@ -14,24 +14,38 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val myViewModel: MainViewModel by viewModels()
-    private var taskAdapter = TaskAdapter()
-    private var count: Int = 0
+    private lateinit var taskAdapter: TaskAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        initViews()
+
+        listeners()
+
+        myViewModel.upgradeListTaskLD.observe(this@MainActivity) { upgrade ->
+            taskAdapter.listTasks = upgrade
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        observeChanges()
+    }
+
+    private fun initViews() {
+        taskAdapter = TaskAdapter()
+        binding.recycler.adapter = taskAdapter
+    }
+
+    private fun listeners() {
         with(binding) {
-
-            recycler.adapter = taskAdapter
-
-            myViewModel.upgradeListTaskLD.observe(this@MainActivity) { upgrade ->
-                taskAdapter.listTasks = upgrade
-                Log.i("MyLog", "UPGRADE          № ${++count}")
-                Log.i("MyLog", "UPGRADE         $upgrade")
-                Log.i("MyLog", "_________________________________________________________________")
+            btnAllTasks.setOnClickListener {
+                val intent = AllTasksActivity().launchIntent(this@MainActivity)
+                startActivity(intent)
             }
-
 
             calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
 
@@ -60,19 +74,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        observeChanges()
-    }
-
     private fun observeChanges() {
         myViewModel.getAllTasksLD().observe(this@MainActivity) {
             myViewModel.currentDateLD.observe(this@MainActivity) { date ->
-
                 binding.currentDate.text = date
-                Log.i("MyLog", "DATE            $date")
                 myViewModel.getNewListTask(it, date)
-                Log.i("MyLog", "LIST FROM DB    $it")
             }
         }
     }

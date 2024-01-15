@@ -13,6 +13,9 @@
         android:theme="@style/Theme.SiliciumDiary"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.activities.AllTasksActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.activities.DetailTaskActivity"
             android:exported="false" />
         <activity

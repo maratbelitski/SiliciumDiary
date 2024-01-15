@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -25,49 +24,15 @@ class DetailTaskActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailTaskBinding
     private val myViewModel: DetailTaskViewModel by viewModels()
-    private lateinit var templateTime:Editable
+    private lateinit var templateTime: Editable
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityDetailTaskBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        with(binding) {
 
-            initViews()
+        initViews()
 
-            btnSave.setOnClickListener {
-                val number = intent.getIntExtra(NUMBER, 0)
-                val date = tvDateTask.text.toString()
-                val time = etTime.text.toString().trim()
-                val name = etNameTask.text.toString().trim()
-                val description = etDescription.text.toString().trim()
-
-                val checkTime = myViewModel.checkTimeLD(templateTime.toString(), time)
-                val checkText = myViewModel.checkTextLD(name, description)
-
-                if (checkTime && checkText) {
-
-                    myViewModel.insertTaskToDBLD(Tasks(date, number, time, name, description))
-                    myViewModel.closeDisplayLD.observe(this@DetailTaskActivity, Observer {
-                        if (it) finish()
-                    })
-                } else if (!checkTime) {
-                    myViewModel.toastTime(templateTime)
-                } else {
-                    myViewModel.toastText()
-                }
-            }
-
-            btnDelete.setOnClickListener {
-                val date = tvDateTask.text.toString()
-                val time = etTime.text.toString().trim()
-
-                myViewModel.deleteTaskFromDB(date, time)
-
-                myViewModel.closeDisplayLD.observe(this@DetailTaskActivity, Observer {
-                      if (it) finish()
-                })
-            }
-        }
+        listeners()
     }
 
     fun launchIntent(
@@ -100,6 +65,44 @@ class DetailTaskActivity : AppCompatActivity() {
                 View.VISIBLE
             } else {
                 View.GONE
+            }
+        }
+    }
+
+    private fun listeners() {
+        with(binding) {
+            btnSave.setOnClickListener {
+                val number = intent.getIntExtra(NUMBER, 0)
+                val date = tvDateTask.text.toString()
+                val time = etTime.text.toString().trim()
+                val name = etNameTask.text.toString().trim()
+                val description = etDescription.text.toString().trim()
+
+                val checkTime = myViewModel.checkTimeLD(templateTime.toString(), time)
+                val checkText = myViewModel.checkTextLD(name, description)
+
+                if (checkTime && checkText) {
+
+                    myViewModel.insertTaskToDBLD(Tasks(date, number, time, name, description))
+                    myViewModel.closeDisplayLD.observe(this@DetailTaskActivity, Observer {
+                        if (it) finish()
+                    })
+                } else if (!checkTime) {
+                    myViewModel.toastTime(templateTime)
+                } else {
+                    myViewModel.toastText()
+                }
+            }
+
+            btnDelete.setOnClickListener {
+                val date = tvDateTask.text.toString()
+                val time = etTime.text.toString().trim()
+
+                myViewModel.deleteTaskFromDB(date, time)
+
+                myViewModel.closeDisplayLD.observe(this@DetailTaskActivity, Observer {
+                    if (it) finish()
+                })
             }
         }
     }

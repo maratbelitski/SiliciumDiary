@@ -1,18 +1,10 @@
 package com.siliciumdiary.data
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.siliciumdiary.data.database.TaskDataBase
 import com.siliciumdiary.domain.Tasks
 import com.siliciumdiary.domain.usecases.DiaryRepository
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.Calendar
 
 /**
@@ -66,7 +58,7 @@ class DiaryRepositoryImpl(application: Application) : DiaryRepository {
     }
 
     override fun addTask(task: Tasks) {
-       return dao.insertTask(task)
+        return dao.insertTask(task)
     }
 
     override fun checkTimeUC(timeTemplate: String, timeComplete: String): Boolean {

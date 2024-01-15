@@ -2,7 +2,6 @@ package com.siliciumdiary.presentation.viewmodels
 
 import android.app.Application
 import android.text.Editable
-import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.AndroidViewModel
@@ -15,8 +14,6 @@ import com.siliciumdiary.domain.usecases.AddTaskInDB
 import com.siliciumdiary.domain.usecases.CheckText
 import com.siliciumdiary.domain.usecases.CheckTime
 import com.siliciumdiary.domain.usecases.DeleteTaskFromDB
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -35,16 +32,14 @@ class DetailTaskViewModel(application: Application) : AndroidViewModel(applicati
 
     var closeDisplayLD: MutableLiveData<Boolean> = MutableLiveData(false)
 
-
-    fun insertTaskToDBLD(task: Tasks) {                                               //В UseCase
+    fun insertTaskToDBLD(task: Tasks) {
         viewModelScope.launch(Dispatchers.IO) {
             insertTask.addTaskUC(task)
             closeDisplayLD.postValue(true)
         }
     }
 
-
-    fun deleteTaskFromDB(taskDate: String, timeTask: String) {                       //В UseCase
+    fun deleteTaskFromDB(taskDate: String, timeTask: String) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteTask.deleteTaskFromDbUC(taskDate, timeTask)
             closeDisplayLD.postValue(true)
@@ -54,11 +49,11 @@ class DetailTaskViewModel(application: Application) : AndroidViewModel(applicati
     fun checkTimeLD(
         timeTemplate: String,
         timeComplete: String
-    ): Boolean {                  //В UseCase
+    ): Boolean {
         return checkTime.checkTimeUC(timeTemplate, timeComplete)
     }
 
-    fun checkTextLD(name: String, description: String): Boolean {                        //В UseCase
+    fun checkTextLD(name: String, description: String): Boolean {
         return checkText.checkTextUC(name, description)
     }
 

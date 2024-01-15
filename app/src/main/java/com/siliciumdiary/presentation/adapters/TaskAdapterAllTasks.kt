@@ -14,14 +14,7 @@ import com.siliciumdiary.domain.Tasks
  * @date  25.12.2023
  * @project SiliciumDiary
  */
-class TaskAdapter() : RecyclerView.Adapter<TaskAdapter.TaskHolder>() {
-    companion object {
-        private var LAYOUT_EMPTY = 0
-        private var TASK_EMPTY = 0
-        private var TASK_FILLED = 1
-    }
-
-
+class TaskAdapterAllTasks() : RecyclerView.Adapter<TaskAdapterAllTasks.TaskHolder>() {
     var listTasks = mutableListOf<Tasks>()
         set(value) {
             field = value
@@ -30,7 +23,7 @@ class TaskAdapter() : RecyclerView.Adapter<TaskAdapter.TaskHolder>() {
     var myTaskClickListener: MyTaskClickListener? = null
 
     class TaskHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+        val date: TextView = itemView.findViewById(R.id.tvValueDate)
         val time: TextView = itemView.findViewById(R.id.tvValueTime)
         val name: TextView = itemView.findViewById(R.id.tvValueTaskName)
         val description: TextView = itemView.findViewById(R.id.tvValueDescription)
@@ -39,13 +32,8 @@ class TaskAdapter() : RecyclerView.Adapter<TaskAdapter.TaskHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskHolder {
-        var layout = R.layout.item_recycler_empty
-
-        if (viewType == TASK_FILLED) {
-            layout = R.layout.item_recycler
-            LAYOUT_EMPTY = TASK_FILLED
-        }
-        val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_recycler_all, parent, false)
         return TaskHolder(view)
     }
 
@@ -54,26 +42,16 @@ class TaskAdapter() : RecyclerView.Adapter<TaskAdapter.TaskHolder>() {
     }
 
     override fun onBindViewHolder(holder: TaskHolder, position: Int) {
-        if (LAYOUT_EMPTY == TASK_FILLED) {
+        holder.date.text = listTasks[position].dateTask
+        holder.name.text = listTasks[position].nameTask
+        holder.description.text = listTasks[position].descriptionTask
 
-            holder.name.text = listTasks[position].nameTask
-            holder.description.text = listTasks[position].descriptionTask
-
-            holder.btnDell.setOnClickListener {
-                myTaskClickListener?.myClickDelete(listTasks[position])
-            }
+        holder.btnDell.setOnClickListener {
+            myTaskClickListener?.myClickDelete(listTasks[position])
         }
         holder.time.text = listTasks[position].timeTask
         holder.btnAdd.setOnClickListener {
             myTaskClickListener?.myClickAdd(listTasks[position])
-        }
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return if (listTasks[position].nameTask.isEmpty()) {
-            TASK_EMPTY
-        } else {
-            TASK_FILLED
         }
     }
 

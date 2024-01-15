@@ -2,7 +2,6 @@ package com.siliciumdiary.domain.usecases
 
 import androidx.lifecycle.LiveData
 import com.siliciumdiary.domain.Tasks
-import io.reactivex.rxjava3.core.Completable
 
 /**
  * @author Belitski Marat

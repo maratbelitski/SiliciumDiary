@@ -7,8 +7,8 @@ import com.siliciumdiary.domain.Tasks
  * @date  10.01.2024
  * @project SiliciumDiary
  */
-class GetDefaultListTasks(private val diaryRepository: DiaryRepository) {
-    fun getDefaultListTasksUC():MutableList<Tasks>{
+class GetDefaultTask(private val diaryRepository: DiaryRepository) {
+    fun getDefaultListTask():MutableList<Tasks>{
         return diaryRepository.getDefaultListTasksRep()
     }
 }
