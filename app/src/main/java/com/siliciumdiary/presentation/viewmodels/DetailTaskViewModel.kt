@@ -14,6 +14,8 @@ import com.siliciumdiary.domain.usecases.AddTaskInDB
 import com.siliciumdiary.domain.usecases.CheckText
 import com.siliciumdiary.domain.usecases.CheckTime
 import com.siliciumdiary.domain.usecases.DeleteTaskFromDB
+import com.siliciumdiary.domain.usecases.TaskFromJson
+import com.siliciumdiary.domain.usecases.TaskToJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -29,6 +31,8 @@ class DetailTaskViewModel(application: Application) : AndroidViewModel(applicati
     private val insertTask = AddTaskInDB(repository)
     private val checkTime = CheckTime(repository)
     private val checkText = CheckText(repository)
+    private val convertToJson = TaskToJson(repository)
+    private val convertFromJson = TaskFromJson(repository)
 
     var closeDisplayLD: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -74,5 +78,13 @@ class DetailTaskViewModel(application: Application) : AndroidViewModel(applicati
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
+
+    fun convertToJsonLD(task: Tasks):String{
+        return convertToJson.convertToJsonUC(task)
+    }
+
+    fun convertFromJsonLD(jsonText:String):Tasks{
+        return convertFromJson.convertFromJsonUC(jsonText)
     }
 }

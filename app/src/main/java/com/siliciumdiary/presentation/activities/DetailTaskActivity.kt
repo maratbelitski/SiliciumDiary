@@ -8,8 +8,8 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.siliciumdiary.domain.Tasks
 import com.siliciumdiary.databinding.ActivityDetailTaskBinding
+import com.siliciumdiary.domain.Tasks
 import com.siliciumdiary.presentation.viewmodels.DetailTaskViewModel
 
 class DetailTaskActivity : AppCompatActivity() {
@@ -83,7 +83,13 @@ class DetailTaskActivity : AppCompatActivity() {
 
                 if (checkTime && checkText) {
 
-                    myViewModel.insertTaskToDBLD(Tasks(date, number, time, name, description))
+                    //Преобразование JSON/Tasks
+                    val freshTask = Tasks(date, number, time, name, description)
+                    val toJson = myViewModel.convertToJsonLD(freshTask)
+                    val fromJson = myViewModel.convertFromJsonLD(toJson)
+
+                    myViewModel.insertTaskToDBLD(fromJson)
+
                     myViewModel.closeDisplayLD.observe(this@DetailTaskActivity, Observer {
                         if (it) finish()
                     })

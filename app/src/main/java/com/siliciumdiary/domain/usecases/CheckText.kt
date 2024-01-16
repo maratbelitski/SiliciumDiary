@@ -8,5 +8,5 @@ package com.siliciumdiary.domain.usecases
 class CheckText(private val repository: DiaryRepository) {
     fun checkTextUC(name: String, description: String):Boolean{
         return repository.checkTextUC(name,description)
-    }
+    }                                                                                                                                                                                                                                                                                                          
 }

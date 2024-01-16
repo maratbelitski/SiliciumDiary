@@ -2,6 +2,7 @@ package com.siliciumdiary.data
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import com.google.gson.GsonBuilder
 import com.siliciumdiary.data.database.TaskDataBase
 import com.siliciumdiary.domain.Tasks
 import com.siliciumdiary.domain.usecases.DiaryRepository
@@ -91,5 +92,17 @@ class DiaryRepositoryImpl(application: Application) : DiaryRepository {
             result = true
         }
         return result
+    }
+
+    override fun convertToJsonRep(task: Tasks): String {
+        val builder = GsonBuilder()
+        val gson = builder.create()
+        return gson.toJson(task)
+    }
+
+    override fun convertFromJsonRep(json: String): Tasks {
+        val builder = GsonBuilder()
+        val gson = builder.create()
+        return gson.fromJson(json,Tasks::class.java)
     }
 }

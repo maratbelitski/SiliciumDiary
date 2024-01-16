@@ -17,4 +17,6 @@ interface DiaryRepository {
      fun addTask(task: Tasks)
     fun checkTimeUC(timeTemplate: String, timeComplete: String):Boolean
     fun checkTextUC(name: String, description: String):Boolean
+    fun convertToJsonRep(task: Tasks):String
+    fun convertFromJsonRep(json: String):Tasks
 }
