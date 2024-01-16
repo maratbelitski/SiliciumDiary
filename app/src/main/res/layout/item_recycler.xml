@@ -47,7 +47,7 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTaskName" />
+            app:layout_constraintTop_toBottomOf="@+id/tvValueTaskName" />
 
         <TextView
             android:id="@+id/tvValueTime"
@@ -68,10 +68,9 @@
             android:maxLength="25"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/tvDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/etTime"
-            app:layout_constraintTop_toTopOf="@+id/tvTaskName"
+            app:layout_constraintEnd_toStartOf="@+id/ivDellTask"
+            app:layout_constraintStart_toEndOf="@+id/tvTaskName"
+            app:layout_constraintTop_toBottomOf="@+id/tvTaskName"
             tools:text="Play computer game" />
 
         <TextView
@@ -95,9 +94,9 @@
 
         <ImageView
             android:id="@+id/ivDellTask"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@drawable/baseline_close_24"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/delete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

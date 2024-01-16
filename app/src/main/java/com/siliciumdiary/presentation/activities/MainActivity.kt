@@ -1,9 +1,10 @@
 package com.siliciumdiary.presentation.activities
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.siliciumdiary.databinding.ActivityMainBinding
 import com.siliciumdiary.domain.Tasks
 import com.siliciumdiary.presentation.adapters.TaskAdapter
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         initViews()
 
         listeners()
+
+        doSwipe()
 
         myViewModel.upgradeListTaskLD.observe(this@MainActivity) { upgrade ->
             taskAdapter.listTasks = upgrade
@@ -81,5 +84,26 @@ class MainActivity : AppCompatActivity() {
                 myViewModel.getNewListTask(it, date)
             }
         }
+    }
+    private fun doSwipe() {
+        val callback = object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = taskAdapter.listTasks[viewHolder.adapterPosition]
+                myViewModel.deleteTaskFromDB(item.dateTask,item.timeTask)
+            }
+        }
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(binding.recycler)
     }
 }

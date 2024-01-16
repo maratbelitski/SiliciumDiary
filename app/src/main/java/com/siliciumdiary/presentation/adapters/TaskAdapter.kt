@@ -17,8 +17,8 @@ import com.siliciumdiary.domain.Tasks
 class TaskAdapter() : RecyclerView.Adapter<TaskAdapter.TaskHolder>() {
     companion object {
         private var LAYOUT_EMPTY = 0
-        private var TASK_EMPTY = 0
-        private var TASK_FILLED = 1
+        private const val TASK_EMPTY = 0
+        private const val TASK_FILLED = 1
     }
 
 
