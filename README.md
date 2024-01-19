@@ -1,4 +1,4 @@
-# MyUniversity
+# SiliciumDiary
 
 <p align="center">
   <img src="https://i.imgur.com/DLIRAYh.png" width="200" height ="200">
