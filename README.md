@@ -19,6 +19,7 @@
 # Techologies
 
 Язык Kotlin
+
 Работа с базовыми элементами:
 - XML;
 - Image;
