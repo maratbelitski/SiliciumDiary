@@ -57,6 +57,7 @@ class DetailTaskViewModel(application: Application) : AndroidViewModel(applicati
         return checkTime.checkTimeUC(timeTemplate, timeComplete)
     }
 
+    //Проверки ввода данных
     fun checkTextLD(name: String, description: String): Boolean {
         return checkText.checkTextUC(name, description)
     }

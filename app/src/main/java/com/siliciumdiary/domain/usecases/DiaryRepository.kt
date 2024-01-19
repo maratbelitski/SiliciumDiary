@@ -14,7 +14,7 @@ interface DiaryRepository {
     fun deleteTaskFromDbRep(taskDate: String, timeTask: String)
     fun getAllTasksRep(): LiveData<MutableList<Tasks>>
     fun getNewListTask(listFromDB: List<Tasks>, date:String):MutableList<Tasks>
-     fun addTask(task: Tasks)
+    fun addTask(task: Tasks)
     fun checkTimeUC(timeTemplate: String, timeComplete: String):Boolean
     fun checkTextUC(name: String, description: String):Boolean
     fun convertToJsonRep(task: Tasks):String

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.siliciumdiary.databinding.ActivityAllTasksBinding
@@ -23,10 +22,11 @@ class AllTasksActivity : AppCompatActivity() {
         binding = ActivityAllTasksBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Методы инициализации вью
         initViews()
-
+        //Методы обработки кнопок удалить и изменить
         listeners()
-
+        //Удаление заметки свайпом
         doSwipe()
     }
 
@@ -75,7 +75,7 @@ class AllTasksActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val item = taskAdapter.listTasks[viewHolder.adapterPosition]
+                val item = taskAdapter.currentList[viewHolder.adapterPosition]
                 myViewModel.deleteTaskFromDB(item.dateTask,item.timeTask)
             }
         }
@@ -84,8 +84,8 @@ class AllTasksActivity : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
-        myViewModel.getAllTasksLD().observe(this, Observer {
-            taskAdapter.listTasks = it
-        })
+        myViewModel.getAllTasksLD().observe(this){
+            taskAdapter.submitList(it)
+        }
     }
 }

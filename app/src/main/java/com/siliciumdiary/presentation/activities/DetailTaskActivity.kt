@@ -7,7 +7,6 @@ import android.text.Editable
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import com.siliciumdiary.databinding.ActivityDetailTaskBinding
 import com.siliciumdiary.domain.Tasks
 import com.siliciumdiary.presentation.viewmodels.DetailTaskViewModel
@@ -35,6 +34,7 @@ class DetailTaskActivity : AppCompatActivity() {
         listeners()
     }
 
+    //Получаем для обработки данные из главной активити
     fun launchIntent(
         context: Context, date: String, number: Int, time: String, name: String, description: String
     ): Intent {
@@ -90,9 +90,9 @@ class DetailTaskActivity : AppCompatActivity() {
 
                     myViewModel.insertTaskToDBLD(fromJson)
 
-                    myViewModel.closeDisplayLD.observe(this@DetailTaskActivity, Observer {
+                    myViewModel.closeDisplayLD.observe(this@DetailTaskActivity) {
                         if (it) finish()
-                    })
+                    }
                 } else if (!checkTime) {
                     myViewModel.toastTime(templateTime)
                 } else {
@@ -106,9 +106,9 @@ class DetailTaskActivity : AppCompatActivity() {
 
                 myViewModel.deleteTaskFromDB(date, time)
 
-                myViewModel.closeDisplayLD.observe(this@DetailTaskActivity, Observer {
+                myViewModel.closeDisplayLD.observe(this@DetailTaskActivity){
                     if (it) finish()
-                })
+                }
             }
         }
     }

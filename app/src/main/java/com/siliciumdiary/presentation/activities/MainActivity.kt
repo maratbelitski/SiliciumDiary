@@ -29,13 +29,8 @@ class MainActivity : AppCompatActivity() {
         doSwipe()
 
         myViewModel.upgradeListTaskLD.observe(this@MainActivity) { upgrade ->
-            taskAdapter.listTasks = upgrade
+            taskAdapter.submitList(upgrade)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        observeChanges()
     }
 
     private fun initViews() {
@@ -45,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun listeners() {
         with(binding) {
+
             btnAllTasks.setOnClickListener {
                 val intent = AllTasksActivity().launchIntent(this@MainActivity)
                 startActivity(intent)
@@ -77,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Изменения в базе данных в зависимости от даты
     private fun observeChanges() {
         myViewModel.getAllTasksLD().observe(this@MainActivity) {
             myViewModel.currentDateLD.observe(this@MainActivity) { date ->
@@ -85,6 +82,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun doSwipe() {
         val callback = object : ItemTouchHelper.SimpleCallback(
             0,
@@ -99,11 +97,16 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val item = taskAdapter.listTasks[viewHolder.adapterPosition]
-                myViewModel.deleteTaskFromDB(item.dateTask,item.timeTask)
+                val item = taskAdapter.currentList[viewHolder.adapterPosition]
+                myViewModel.deleteTaskFromDB(item.dateTask, item.timeTask)
             }
         }
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(binding.recycler)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        observeChanges()
     }
 }
