@@ -5,18 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    android:padding="16dp"
-    tools:context=".activities.MainActivity">
+    android:padding="@dimen/padding_normal"
+    tools:context=".presentation.activities.MainActivity">
 
 
     <CalendarView
         android:id="@+id/calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/CalenderMonthsText"
-        android:weekDayTextAppearance="@style/CalenderWeekDayText"
         android:dateTextAppearance="@style/CalenderDayText"
         android:selectedDateVerticalBar="@style/CalenderWeekDayText"
+        android:theme="@style/CalenderMonthsText"
+        android:weekDayTextAppearance="@style/CalenderWeekDayText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,22 +29,37 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentDate"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/btn_all_tasks"
         tools:listitem="@layout/item_recycler" />
 
     <TextView
         android:id="@+id/currentDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
         android:gravity="center"
-        tools:text="25.12.2023"
-        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_all_tasks"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_all_tasks"
+        app:layout_constraintTop_toTopOf="@+id/btn_all_tasks"
+        tools:text="25.12.2023" />
+
+    <Button
+        android:id="@+id/btn_all_tasks"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/padding_normal"
+        android:background="@drawable/style_item_green"
+        android:text="@string/all_tasks"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/recycler"
+        app:layout_constraintEnd_toStartOf="@+id/currentDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calendar" />
 

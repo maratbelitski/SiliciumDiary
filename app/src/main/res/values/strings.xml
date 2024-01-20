@@ -11,4 +11,7 @@
     <string name="description_item">Description:</string>
 
     <string name="error_checkText">Поля не могут быть пустыми!</string>
+    <string name="all_tasks">All tasks</string>
+    <string name="close">CLOSE</string>
+    <string name="date">Date:</string>
 </resources>

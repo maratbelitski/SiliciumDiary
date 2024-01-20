@@ -1,11 +1,11 @@
-package com.siliciumdiary.database
+package com.siliciumdiary.data.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.siliciumdiary.data.Tasks
+import com.siliciumdiary.domain.Tasks
 
 /**
  * @author Belitski Marat
@@ -15,13 +15,12 @@ import com.siliciumdiary.data.Tasks
 
 @Dao
 interface TaskDao {
-    @Query("SELECT * FROM tasks WHERE dateTask = :dateTask")
-    fun getAllTasks(dateTask:String):LiveData<List<Tasks>>
-
+    @Query("SELECT * FROM tasks")
+    fun getAllTasks(): LiveData<MutableList<Tasks>>
 
     @Query("DELETE FROM tasks WHERE dateTask = :dateTask AND timeTask = :timeTask")
-   fun removeTask(dateTask: String, timeTask:String)
+    fun removeTask(dateTask: String, timeTask: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-   fun insertTask(tasks: Tasks)
+    fun insertTask(tasks: Tasks)
 }

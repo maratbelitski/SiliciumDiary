@@ -17,6 +17,29 @@
         android:padding="8dp">
 
         <TextView
+            android:id="@+id/etDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="@string/date"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvValueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/etDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/etDate"
+            app:layout_constraintTop_toTopOf="@+id/etDate"
+            tools:text="12.1.2024" />
+
+        <TextView
             android:id="@+id/etTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,7 +48,7 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/etDate" />
 
         <TextView
             android:id="@+id/tvTaskName"
@@ -62,16 +85,16 @@
             tools:text="12.00" />
 
         <TextView
-            android:id="@+id/tvValueTaskName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLength="25"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/ivDellTask"
-            app:layout_constraintStart_toEndOf="@+id/tvTaskName"
-            app:layout_constraintTop_toBottomOf="@+id/tvTaskName"
-            tools:text="Play computer game" />
+        android:id="@+id/tvValueTaskName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="25"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/ivDellTask"
+        app:layout_constraintStart_toEndOf="@+id/tvTaskName"
+        app:layout_constraintTop_toBottomOf="@+id/tvTaskName"
+        tools:text="Play computer game" />
 
         <TextView
             android:id="@+id/tvValueDescription"
