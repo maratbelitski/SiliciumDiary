@@ -26,6 +26,7 @@
 - MVVM;
 - JSON objects;
 - Kotlin coroutines;
+- Unit tests;
 - Room;
 - а также принципы Clean architecture, SOLID;
   
