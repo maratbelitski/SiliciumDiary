@@ -100,6 +100,15 @@ class MainActivity : AppCompatActivity() {
                 val item = taskAdapter.currentList[viewHolder.adapterPosition]
                 myViewModel.deleteTaskFromDB(item.dateTask, item.timeTask)
             }
+
+            override fun getSwipeDirs(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ): Int {
+                val item = taskAdapter.currentList[viewHolder.adapterPosition]
+                if(item.nameTask.isEmpty()) return 0
+                return super.getSwipeDirs(recyclerView, viewHolder)
+            }
         }
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(binding.recycler)
