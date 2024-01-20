@@ -23,6 +23,7 @@
 - XML;
 - RecyclerView;
 - ListAdapter;
+- MVVM;
 - JSON objects;
 - Kotlin coroutines;
 - Room;
